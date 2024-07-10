@@ -1,0 +1,51 @@
+package examples
+
+type Types struct {
+	Bool       bool
+	String     string
+	Int        int
+	Int8       int8
+	Int16      int16
+	Int32      int32
+	Int64      int64
+	Uint       uint
+	Uint8      uint8
+	Uint16     uint16
+	Uint32     uint32
+	Uint64     uint64
+	Uintptr    uintptr
+	Uint8ptr   uintptr
+	Uint16ptr  uintptr
+	Uint32ptr  uintptr
+	Uint64ptr  uintptr
+	Float32    float32
+	Float64    float64
+	Complex64  complex64
+	Complex128 complex128
+	Byte       byte
+	Rune       rune
+
+	Bools       []bool
+	Strings     []string
+	Ints        []int
+	Int8s       []int8
+	Int16s      []int16
+	Int32s      []int32
+	Int64s      []int64
+	Uints       []uint
+	Uint8s      []uint8
+	Uint16s     []uint16
+	Uint32s     []uint32
+	Uint64s     []uint64
+	Uintptrs    []uintptr
+	Uint8ptrs   []uintptr
+	Uint16ptrs  []uintptr
+	Uint32ptrs  []uintptr
+	Uint64ptrs  []uintptr
+	Float32s    []float32
+	Float64s    []float64
+	Complex64s  []complex64
+	Complex128s []complex128
+	Bytes       []byte
+	Runes       []rune
+}

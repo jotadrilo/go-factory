@@ -1,0 +1,68 @@
+before:
+  hooks:
+    - go mod download
+builds:
+  - id: release
+    env:
+      - CGO_ENABLED=0
+      - GO111MODULE=on
+    binary: go-factory
+    ldflags:
+      - -X cmd.version={{.Version}}
+archives:
+  - format: tar.gz
+    name_template: >-
+      {{- .Binary }}_
+      {{- .Version }}_
+      {{- .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end -}}
+    format_overrides:
+      - goos: windows
+        format: zip
+    files:
+      - README.md
+checksum:
+  name_template: "checksums.txt"
+snapshot:
+  name_template: "{{ .Tag }}"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+brews:
+  - name: go-factory
+    homepage: https://github.com/jotadrilo/go-factory
+    description: A factory code autogenator for Go.
+    url_template: "https://github.com/jotadrilo/go-factory/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
+    repository:
+      owner: jotadrilo
+      name: homebrew-tap
+    directory: formula
+    commit_author:
+      name: jotadrilo
+      email: josriolop@gmail.com
+    skip_upload: auto
+    ids:
+      - default
+    install: |
+      bin.install "go-factory"
+    test: |
+      system bin/"go-factory", "-version"
+signs:
+  - id: deafult
+    artifacts: all
+    signature: "${artifact}.sig"
+    cmd: gpg
+    args:
+      - "--batch"
+      - "--local-user"
+      - "{{ .Env.GPG_FINGERPRINT }}"
+      - "--output"
+      - "${signature}"
+      - "--detach-sign"
+      - "${artifact}"
