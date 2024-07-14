@@ -9,7 +9,7 @@ A factory code autogenator for Go
 ```
 mkdir -p go-factory && \
 curl -sSL https://github.com/jotadrilo/go-factory/releases/download/1.0.2/go-factory_1.0.2_linux_x86_64.tar.gz | tar xzf - -C go-factory && \
-sudo cp go-factory /usr/local/bin/ \
+sudo cp go-factory/go-factory /usr/local/bin/ && \
 sudo chmod +x /usr/local/bin/go-factory
 ```
 
@@ -27,7 +27,7 @@ Alternative:
 ```
 mkdir -p go-factory && \
 curl -sSL https://github.com/jotadrilo/go-factory/releases/download/1.0.2/go-factory_1.0.2_darwin_arm64.tar.gz | tar xzf - -C go-factory && \
-sudo cp go-factory /usr/local/bin/ \
+sudo cp go-factory/go-factory /usr/local/bin/ && \
 sudo chmod +x /usr/local/bin/go-factory
 ```
 
