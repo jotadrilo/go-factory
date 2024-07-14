@@ -8,7 +8,7 @@ builds:
       - GO111MODULE=on
     binary: go-factory
     ldflags:
-      - -X cmd.version={{.Version}}
+      - -X github.com/jotadrilo/go-factory/cmd.version={{.Version}}
 archives:
   - format: tar.gz
     name_template: >-

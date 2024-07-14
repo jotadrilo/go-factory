@@ -8,6 +8,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
+	"log"
 	"strings"
 )
 
@@ -24,6 +25,13 @@ func init() {
 			panic(err)
 		}
 	})
+
+	projectDir, err := config.LocateProjectRootDir()
+	if err != nil {
+		panic(err)
+	}
+
+	cfg = config.NewConfig(version, projectDir)
 }
 
 func NewRootCmd() *cobra.Command {
@@ -31,7 +39,8 @@ func NewRootCmd() *cobra.Command {
 		Use:     "go-factory",
 		Version: version,
 		Short:   "Generate factory helpers for your Golang structs",
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, _ []string) error {
+			log.Printf("Running go-factory version %s", version)
 			return generator.NewFactories(&cfg).Generate()
 		},
 	}

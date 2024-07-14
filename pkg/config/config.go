@@ -25,4 +25,13 @@ type Config struct {
 
 	// Project directory. Auto-detected
 	ProjectDir string
+	// Tool version. Auto-detected
+	Version string
+}
+
+func NewConfig(version string, dir string) Config {
+	return Config{
+		ProjectDir: dir,
+		Version:    version,
+	}
 }

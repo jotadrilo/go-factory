@@ -1,6 +1,7 @@
 package generator
 
 import (
+	"github.com/jotadrilo/go-factory/pkg/config"
 	"log"
 )
 
@@ -9,10 +10,14 @@ type TreeRenderer interface {
 	FromFileTree(tree *FileTree) map[string][]byte
 }
 
-type Renderer struct{}
+type Renderer struct {
+	Config *config.Config
+}
 
-func NewRenderer() *Renderer {
-	return &Renderer{}
+func NewRenderer(cfg *config.Config) *Renderer {
+	return &Renderer{
+		Config: cfg,
+	}
 }
 
 func (x *Renderer) FromPackageTree(tree *PackageTree) map[string][]byte {
@@ -61,7 +66,7 @@ func (x *Renderer) renderDataByFile(imports Imports, strcts []*Struct) map[strin
 		// Add header the first time we are adding the code
 		if _, ok := dataByFile[strct.FactoryFileTpl]; !ok {
 			dataByFile[strct.FactoryFileTpl] = append(dataByFile[strct.FactoryFileTpl],
-				[]byte(generateFactoryCodeHeader(strct))...,
+				[]byte(generateFactoryCodeHeader(x.Config.Version, strct))...,
 			)
 
 			dataByFile[strct.FactoryFileTpl] = append(dataByFile[strct.FactoryFileTpl],

@@ -16,20 +16,13 @@ func NewFactories(cfg *config.Config) *Factories {
 	return &Factories{
 		Config:     cfg,
 		Discoverer: NewFileTreeDiscoverer(cfg),
-		Renderer:   NewRenderer(),
+		Renderer:   NewRenderer(cfg),
 		Writer:     NewFileWriter(),
 	}
 }
 
 // Generate generates the factory code for all the packages specified in the configuration.
 func (x *Factories) Generate() error {
-	projectDir, err := config.LocateProjectRootDir()
-	if err != nil {
-		return err
-	}
-
-	x.Config.ProjectDir = projectDir
-
 	// There are two run modes:
 	// 1. Generate factories from inline annotations
 	// 2. Generate factories from configuration
