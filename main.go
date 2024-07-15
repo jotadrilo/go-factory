@@ -3,14 +3,14 @@ package main
 import (
 	"context"
 	"github.com/jotadrilo/go-factory/cmd"
-	"log"
+	"github.com/jotadrilo/go-factory/pkg/log"
 )
 
 func main() {
 	var ctx = context.Background()
 
 	if err := mainE(ctx); err != nil {
-		log.Fatalf("Process failed: %v", err)
+		log.Logger.Fatalf("Process failed: %s", err.Error())
 	}
 }
 

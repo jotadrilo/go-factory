@@ -19,7 +19,7 @@ func LocateProjectRootDir() (string, error) {
 
 	for {
 		if _, ok := accessed[dir]; ok {
-			return "", fmt.Errorf("could not find the project root directory")
+			return "", fmt.Errorf("no go.mod file found")
 		}
 
 		accessed[dir] = struct{}{}

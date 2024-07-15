@@ -3,17 +3,18 @@ package generator
 import (
 	"bytes"
 	"fmt"
-	"github.com/jotadrilo/go-factory/pkg/config"
 	"go/ast"
 	"go/parser"
 	"go/token"
 	"io/fs"
-	"log"
 	"os/exec"
 	"path/filepath"
 	"strings"
 	"text/template"
 	"unicode"
+
+	"github.com/jotadrilo/go-factory/pkg/config"
+	"github.com/jotadrilo/go-factory/pkg/log"
 )
 
 type Discoverer interface {
@@ -73,7 +74,7 @@ func (x *FileTreeDiscoverer) LoadDir(pkg config.Package, pkgDir string) (*Packag
 			return nil
 		}
 
-		log.Printf("Discovering structs in %s file", pkgFile)
+		log.Logger.Infof("Discovering structs in %s file", pkgFile)
 		ft, err := x.LoadFile(pkg, pkgDir, pkgFile)
 		if err != nil {
 			return err
@@ -166,7 +167,7 @@ func (x *FileTreeDiscoverer) LoadFile(pkg config.Package, pkgDir string, pkgFile
 		for _, comment := range node.Comments {
 			for _, header := range validHeaders {
 				if strings.Contains(comment.Text(), header) {
-					log.Printf("Excluding %s file (generated)\n", pkgFile)
+					log.Logger.Infof("Excluding %s file (generated)", pkgFile)
 					return false
 				}
 			}
@@ -188,11 +189,11 @@ func (x *FileTreeDiscoverer) LoadFile(pkg config.Package, pkgDir string, pkgFile
 
 		var typeName = ts.Name.Name
 		if !discoverable(typeName) {
-			log.Printf("Discovered %s struct, but it is not required", typeName)
+			log.Logger.Infof("Discovered %s struct, but it is not required", typeName)
 			return true
 		}
 
-		log.Printf("Discovered %s struct", typeName)
+		log.Logger.Infof("Discovered %s struct", typeName)
 
 		var (
 			pkgFileBase = filepath.Base(pkgFile)
@@ -226,7 +227,7 @@ func (x *FileTreeDiscoverer) LoadFile(pkg config.Package, pkgDir string, pkgFile
 
 		var data bytes.Buffer
 		if err := t.Execute(&data, strct); err != nil {
-			log.Printf("Cannot render %s template: %s", t.Name(), err)
+			log.Logger.Warnf("Cannot render %s template: %s", t.Name(), err)
 			return false
 		}
 

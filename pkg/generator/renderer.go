@@ -2,7 +2,7 @@ package generator
 
 import (
 	"github.com/jotadrilo/go-factory/pkg/config"
-	"log"
+	"github.com/jotadrilo/go-factory/pkg/log"
 )
 
 type TreeRenderer interface {
@@ -56,12 +56,12 @@ func (x *Renderer) renderDataByFile(imports Imports, strcts []*Struct) map[strin
 				continue
 			}
 
-			log.Printf("Unable to locate import %q", field.Import)
+			log.Logger.Warnf("Unable to locate import %q", field.Import)
 		}
 	}
 
 	for ix, strct := range strcts {
-		log.Printf("Generating factories for %s struct into %s", strct.TypeName, strct.FactoryFileTpl)
+		log.Logger.Infof("Generating factories for %s struct into %s", strct.TypeName, strct.FactoryFileTpl)
 
 		// Add header the first time we are adding the code
 		if _, ok := dataByFile[strct.FactoryFileTpl]; !ok {
